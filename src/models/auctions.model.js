@@ -19,14 +19,6 @@ module.exports = function (app) {
       type: Sequelize.DATE,
       allowNull: false
     },
-    seller_username: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    top_bidder: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
   }, {
     classMethods: {
       associate (models) { // eslint-disable-line no-unused-vars

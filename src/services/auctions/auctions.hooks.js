@@ -2,15 +2,34 @@
 
 const { authenticate } = require('feathers-authentication').hooks;
 const auth = require('feathers-authentication-hooks');
-const addSellerUsername = require('../../hooks/add-seller-username');
+const { debug, populate } = require('feathers-hooks-common');
 
 const addTopBidder = require('../../hooks/add-top-bidder');
 
 const placeBid = require('../../hooks/place-bid');
 
+const userAuctionsSchema = {
+  include: [
+    {
+      service: 'users',
+      nameAs: 'seller',
+      parentField: 'seller_id',
+      childField: 'id'
+    },
+    {
+      service: 'users',
+      nameAs: 'top_bidder2',
+      parentField: 'top_bidder_id',
+      childField: 'id'
+    },
+  ]
+};
+
+const sequelizeRaw = require('../../hooks/sequelize-raw');
+
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [authenticate('jwt'), sequelizeRaw()],
     find: [],
     get: [],
     create: [
@@ -18,7 +37,6 @@ module.exports = {
         idField: 'id',
         as: 'seller_id',
       }),
-      addSellerUsername()
     ],
     update: [],
     patch: [addTopBidder(), placeBid()],
@@ -27,8 +45,13 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
-    get: [],
+    find: [
+      debug('hello'),
+      populate({ schema: userAuctionsSchema })
+    ],
+    get: [
+      populate({ schema: userAuctionsSchema })
+    ],
     create: [],
     update: [],
     patch: [],

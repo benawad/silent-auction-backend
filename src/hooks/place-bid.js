@@ -13,7 +13,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     return hook.app.service('auctions')
       .get(hook.id)
       .then(auction => {
-        const price = parseFloat(auction.dataValues.current_price);
+        const price = parseFloat(auction.current_price);
         hook.data.current_price = price + parseFloat(hook.data.current_price);
         return hook;
       });

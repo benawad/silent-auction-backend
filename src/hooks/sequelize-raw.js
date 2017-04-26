@@ -5,7 +5,9 @@
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function (hook) {
-    hook.data.seller_username = hook.params.user.username;
+    hook.params.sequelize = {
+      raw: true,
+    };
     return Promise.resolve(hook);
   };
 };
