@@ -18,7 +18,7 @@ const userAuctionsSchema = {
     },
     {
       service: 'users',
-      nameAs: 'top_bidder2',
+      nameAs: 'top_bidder',
       parentField: 'top_bidder_id',
       childField: 'id'
     },
