@@ -8,8 +8,7 @@ const addTopBidder = require('../../hooks/add-top-bidder');
 
 const placeBid = require('../../hooks/place-bid');
 
-const userAuctionsSchema = {
-  include: [
+const userAuctionsSchema = { include: [
     {
       service: 'users',
       nameAs: 'seller',
@@ -26,6 +25,8 @@ const userAuctionsSchema = {
 };
 
 const sequelizeRaw = require('../../hooks/sequelize-raw');
+
+const popDataValues = require('../../hooks/pop-data-values');
 
 module.exports = {
   before: {
@@ -46,15 +47,22 @@ module.exports = {
   after: {
     all: [],
     find: [
-      debug('hello'),
       populate({ schema: userAuctionsSchema })
     ],
     get: [
       populate({ schema: userAuctionsSchema })
     ],
-    create: [],
-    update: [],
-    patch: [],
+    create: [
+      popDataValues(),
+      populate({ schema: userAuctionsSchema }),
+    ],
+    update: [
+      popDataValues(),
+      populate({ schema: userAuctionsSchema })
+    ],
+    patch: [
+      populate({ schema: userAuctionsSchema })
+    ],
     remove: []
   },
 
