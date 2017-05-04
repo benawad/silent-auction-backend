@@ -9,7 +9,7 @@ const filters = require('./auctions.filters');
 module.exports = function () {
   const app = this;
   const Model = createModel(app);
-  const paginate = app.get('paginate');
+  const paginate = { default: 1000, max: 1000 }
 
   const options = {
     name: 'auctions',
