@@ -5,7 +5,9 @@
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function (hook) {
-    hook.data.top_bidder_id = hook.params.user.id;
+    if (!hook.data.update) {
+      hook.data.top_bidder_id = hook.params.user.id;
+    }
     return Promise.resolve(hook);
   };
 };
